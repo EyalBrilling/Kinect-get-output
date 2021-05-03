@@ -1,0 +1,79 @@
+(function () {
+	var bubblyFrame, bubblyDoc;
+	
+	function init() {
+
+		bubblyFrame = createFrame(function(bubblyFrame) {
+			
+		
+			createStyle("https://www.heyoliver.com/webroot/ho-ui/v2/ho-loader.css", null, function() {
+				
+				//showBubblyFrame();
+			});
+			createScript("https://www.heyoliver.com/webroot/ho-ui/v2/ho-v2.js?v=5",bubblyFrame);
+			
+			bubblyDoc = bubblyFrame.currentTarget.contentDocument || bubblyFrame.currentTarget.contentWindow.document;
+		
+		});
+   }
+   
+   function showBubblyFrame () {
+	   bubblyFrame.style.display = "";
+   }
+    
+	function createFrame(callback) {
+		var iframe = document.createElement("iframe");
+		iframe.id = "ap-bubbly-frame";
+    
+        /* Hide the iframe to avoid exposing it unstyled. */
+        iframe.style.display = "none";
+        
+        /* Set the 'load' event of the iframe to the given callback, if any. */
+        if (callback) iframe.onload = callback;
+		
+		/* Put the iframe into the body of the document. */
+        document.body.appendChild(iframe);
+        
+        return iframe;
+    }
+	
+	function createScript(src, doc, parent, callback) {
+		/* Create a script element. */
+        var script = document.createElement("script");
+
+        /* Set the 'type' and 'src' properties of the script. */
+        script.type = "application/javascript";
+        script.src = src;
+
+        /* Set the 'load' event of the script to the given callback, if any. */
+        if (callback) script.onload = callback;
+
+        /* Append the script to the specified element of the Bubbly document. */
+        //(doc || document)[parent || "head"].appendChild(script);
+		doc.currentTarget.contentWindow.document.head.appendChild(script);
+        
+        /* Return the created element. */
+        return script;
+	}
+	
+	function createStyle(href, doc, callback) {
+		/* Create a link element. */
+		var link = document.createElement("link");
+
+		/* Set the 'type', 'rel' and 'href' properties of the link. */
+		link.type = "text/css";
+		link.rel = "stylesheet";
+		link.href = href;
+        
+        /* Set the 'load' event of the link element to the given callback, if any. */
+        if (callback) link.onload = callback;
+
+		/* Append the link to the head of the document. */
+		(doc || document).head.appendChild(link);
+        
+        /* Return the created element. */
+        return link;
+    }
+	
+	init();
+})();
